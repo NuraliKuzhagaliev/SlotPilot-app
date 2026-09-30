@@ -132,6 +132,14 @@ release/
 
 Builds are unsigned. Code signing and Windows SmartScreen reputation have not been established. The installer uses per-user installation and does not request administrator privileges.
 
+### Publish a Windows release
+
+For future versions, update `package.json` and `package-lock.json` together, merge the changes, then push a matching tag (for example, `v0.3.3` for version `0.3.3`). The **Build Windows app** workflow runs on `windows-latest`, installs dependencies with `npm ci`, runs tests and syntax checks, and builds both executables. A tag/version mismatch stops the build before publication.
+
+After a successful build, the workflow attaches Setup, Portable, and `SHA256SUMS-<version>.txt` to the release for that tag. It creates the release with generated notes if one does not exist; existing release notes are preserved. Rerunning the tagged workflow replaces assets with the same names, including their checksums.
+
+Use **Actions → Build Windows app → Run workflow** for test builds on a selected branch or tag. Manual runs keep the executables and checksums as a seven-day Actions artifact and do not publish a release.
+
 ### Run the integration smoke test
 
 ```powershell
@@ -154,7 +162,7 @@ src/
 assets/             Application icons
 test/               Policy tests and real-Electron smoke test
 docs/               Installation guide and release checksums
-.github/workflows/  Source checks and manual Windows artifact builds
+.github/workflows/  Source checks, tagged Windows releases and manual test builds
 package.json        Runtime entry point and packaging configuration
 package-lock.json   Pinned desktop dependencies
 ```
