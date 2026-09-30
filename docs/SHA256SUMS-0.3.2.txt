@@ -1,0 +1,2 @@
+f4367d8e6b6bd20a5c2b3b53f21485cce4e75bd82e6fb283b40cb62075c67f82  SlotPilot-0.3.2-Portable-x64.exe
+71f4b450f7f9d5845c82baad3abedff39e123f5bd65b8b90f12077d3ae10e597  SlotPilot-0.3.2-Setup-x64.exe

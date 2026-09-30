@@ -1,0 +1,13 @@
+/node_modules/
+/release/
+/test-output/
+/coverage/
+.env
+.env.*
+*.log
+*.pem
+*.pfx
+*.p12
+*.dmp
+.DS_Store
+Thumbs.db

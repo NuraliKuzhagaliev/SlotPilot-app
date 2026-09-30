@@ -1,0 +1,35 @@
+SlotPilot 0.3.2 for Windows x64
+
+INSTALL
+Run SlotPilot-0.3.2-Setup-x64.exe and follow the setup wizard.
+Setup creates desktop and Start menu shortcuts for the current user.
+Administrator privileges are not required.
+
+RUN WITHOUT INSTALLING
+Close the previous SlotPilot window first.
+Run SlotPilot-0.3.2-Portable-x64.exe.
+This file includes the entire desktop client.
+Do not move SlotPilot.exe out of win-unpacked without its companion files.
+
+AI ASSISTANT
+No API key setup is needed in this app. The existing SlotPilot server handles
+the permanent API credentials. Sign in with your SlotPilot account, enable
+the consent checkbox and press Start conversation. Allow microphone access
+when prompted. The assistant uses English. Internet access is required.
+
+The server reports that database, account and voice configuration are present.
+This does not prove that API credits are available or that a live microphone
+conversation succeeds. A real voice booking still needs to be verified.
+
+TABS
+Home, Book a visit, Admin and Demo open in separate tabs in the same window.
+Switching tabs does not reload the booking form. Reload affects the current
+tab only. Admin access is checked by the server; the tab does not grant a role.
+
+VERIFICATION
+The English interface, native menus, connection, tabs and error/retry screens
+have been checked with real Electron. Automated policy and project checks pass.
+Real account login, microphone/speakers and a voice booking are separate checks.
+
+The installer is unsigned. Windows system dialogs use the operating system
+language. Do not disable Windows security protections to bypass a system block.

@@ -1,0 +1,48 @@
+{
+  "name": "slotpilot-desktop",
+  "productName": "SlotPilot",
+  "version": "0.3.2",
+  "description": "SlotPilot car service booking and AI voice assistant for Windows",
+  "author": "SlotPilot",
+  "private": true,
+  "main": "src/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test test/*.test.cjs",
+    "check": "node --check src/main.cjs && node --check src/preload.cjs && node --check src/shell.js && node --check src/navigation.js",
+    "build:win": "electron-builder --win nsis portable --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "44.5.1",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "app.slotpilot.desktop",
+    "productName": "SlotPilot",
+    "asar": true,
+    "directories": { "output": "release", "buildResources": "assets" },
+    "files": ["src/**/*", "assets/icon.png", "assets/icon.ico", "package.json"],
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": ["nsis", "portable"],
+      "signExecutable": false
+    },
+    "nsis": {
+      "artifactName": "SlotPilot-${version}-Setup-${arch}.${ext}",
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "SlotPilot",
+      "deleteAppDataOnUninstall": false,
+      "installerLanguages": ["en_US"],
+      "runAfterFinish": true
+    },
+    "portable": {
+      "artifactName": "SlotPilot-${version}-Portable-${arch}.${ext}",
+      "requestExecutionLevel": "user"
+    }
+  }
+}

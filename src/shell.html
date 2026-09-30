@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <title>SlotPilot</title>
+  <link rel="stylesheet" href="shell.css">
+  <script src="shell.js" defer></script>
+</head>
+<body>
+  <header>
+    <button class="brand" data-command="home" title="Home">S<span>SlotPilot</span></button>
+    <nav aria-label="Application tabs" role="tablist">
+      <button data-command="home" role="tab" aria-selected="false">Home</button>
+      <button data-command="book" role="tab" aria-selected="true">Book a visit</button>
+      <button data-command="admin" role="tab" aria-selected="false">Admin</button>
+      <button data-command="demo" role="tab" aria-selected="false">Demo</button>
+    </nav>
+    <div class="tools">
+      <span id="status" role="status">Connecting…</span>
+      <button data-command="reload" title="Reload (Ctrl+R)" aria-label="Reload">↻</button>
+      <button data-command="microphone" title="Microphone access" aria-label="Microphone access">Microphone</button>
+      <button data-command="about" title="About SlotPilot" aria-label="About SlotPilot">?</button>
+    </div>
+  </header>
+  <main id="panel" aria-live="polite">
+    <div class="card">
+      <img src="../assets/icon.png" width="80" height="80" alt="">
+      <p class="eyebrow">SLOTPILOT · WINDOWS</p>
+      <h1 id="heading">Connecting to your workshop</h1>
+      <p id="description">Loading your visit and the available schedule.</p>
+      <button id="retry" data-command="retry" hidden>Try again</button>
+      <p class="note" id="note">An internet connection is required for bookings and the AI assistant. No API key setup is needed in this app.</p>
+    </div>
+  </main>
+</body>
+</html>

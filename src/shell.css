@@ -1,0 +1,30 @@
+:root { color-scheme: dark; font-family: 'Segoe UI', sans-serif; color: #f1f5f9; background: #101722; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+header { height: 60px; display: flex; align-items: center; gap: 24px; padding: 0 20px; background: #141e2c; border-bottom: 1px solid #2b384b; }
+button { font: inherit; color: inherit; cursor: pointer; border: 1px solid transparent; background: transparent; border-radius: 8px; padding: 8px 12px; }
+button:hover { background: #253448; }
+button:focus-visible { outline: 2px solid #63ddce; outline-offset: 2px; }
+button:disabled { opacity: .5; cursor: default; }
+.brand { display: flex; align-items: center; gap: 10px; color: #64dfcd; font-size: 23px; font-weight: 800; padding: 3px; }
+.brand span { color: #f4f7fa; font-size: 17px; }
+nav, .tools { display: flex; align-items: center; gap: 4px; }
+.tools { margin-left: auto; }
+nav button[aria-current="page"] { background: #253e45; color: #7aebd9; }
+nav button { border-radius: 8px 8px 0 0; height: 46px; align-self: end; border-bottom: 2px solid transparent; }
+nav button[aria-selected="true"] { border-bottom-color: #7aebd9; }
+nav button.audible::after { content: ' ♪'; color: #7aebd9; }
+#status { font-size: 12px; color: #aab8ca; margin-right: 10px; }
+#status[data-kind="ready"] { color: #70d9b9; }
+#status[data-kind="error"] { color: #f2ba83; }
+main { min-height: calc(100vh - 60px); display: grid; place-items: center; padding: 32px; background: radial-gradient(ellipse at top, #193038, #101722 70%); }
+main[hidden] { display: none; }
+.card { max-width: 570px; text-align: center; }
+.card img { border-radius: 22px; margin-bottom: 14px; }
+.eyebrow { color: #76d8c9; font-size: 12px; letter-spacing: 3px; }
+h1 { font-size: 32px; line-height: 1.15; margin: 16px 0; }
+#description { color: #c2ccda; font-size: 17px; line-height: 1.6; }
+#retry { color: #09231d; background: #68dfc9; font-weight: 600; padding: 12px 22px; margin-top: 14px; }
+#retry:hover { background: #95efdd; }
+.note { color: #8ea0b6; font-size: 13px; line-height: 1.6; margin-top: 24px; }
+@media (max-width: 1000px) { header { gap: 10px; padding: 0 12px; } button { padding: 8px; } #status { display: none; } }
