@@ -1,3 +1,11 @@
+# SlotPilot 0.3.3 for Windows
+
+- Uses Electron 44.11.5 and electron-builder 26.18.0. The patched Electron version addresses the TLS certificate advisory GHSA-jr5w-w6x2-84p9.
+- Reloads an already open booking tab when it receives a valid SlotPilot password recovery link. Ordinary navigation still preserves the open tab.
+- Separate installer and portable packages are built for Windows x64. They are unsigned unless built with a configured signing certificate.
+
+---
+
 # SlotPilot 0.3.2 for Windows
 
 An English-language desktop client for the existing SlotPilot AI booking service.

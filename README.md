@@ -4,9 +4,9 @@
 
 SlotPilot helps a customer choose services, describe time and budget constraints, compare suitable appointments, and explicitly confirm a booking. The Windows app runs in its own window and connects to the existing SlotPilot service over HTTPS.
 
-**Current desktop version: 0.3.2 · Windows x64.**
+**Current desktop version: 0.3.3 · Windows x64.**
 
-[Download the Windows installer](https://github.com/NuraliKuzhagaliev/SlotPilot-app/releases/download/v0.3.2/SlotPilot-0.3.2-Setup-x64.exe) · [Download the portable app](https://github.com/NuraliKuzhagaliev/SlotPilot-app/releases/download/v0.3.2/SlotPilot-0.3.2-Portable-x64.exe) · [All releases](https://github.com/NuraliKuzhagaliev/SlotPilot-app/releases)
+[Download the Windows installer](https://github.com/NuraliKuzhagaliev/SlotPilot-app/releases/download/v0.3.3/SlotPilot-0.3.3-Setup-x64.exe) · [Download the portable app](https://github.com/NuraliKuzhagaliev/SlotPilot-app/releases/download/v0.3.3/SlotPilot-0.3.3-Portable-x64.exe) · [All releases](https://github.com/NuraliKuzhagaliev/SlotPilot-app/releases)
 
 ## What the app does
 
@@ -16,7 +16,7 @@ SlotPilot helps a customer choose services, describe time and budget constraints
 - Shows the selected vehicle, services, date, branch, arrival window, completion deadline, and budget.
 - Uses the existing server to find a compatible technician and bay, calculate duration and price, and check availability.
 - Keeps final booking, rescheduling, and cancellation decisions on the server, with explicit confirmation and duplicate/conflict protection.
-- Preserves the desktop sign-in session and window size between launches.
+- Preserves the desktop sign-in session and window size between launches. Recovery links reopen the booking tab when needed.
 - Shows a local connection error screen and a **Try again** button when a page cannot load.
 - Lets the user control microphone permission. Camera and screen capture are disabled.
 
@@ -26,13 +26,13 @@ Admin and demo actions require the appropriate server permissions. Opening a tab
 
 ### Installer
 
-1. Download `SlotPilot-0.3.2-Setup-x64.exe` from the release above.
+1. Download `SlotPilot-0.3.3-Setup-x64.exe` from the release above.
 2. Close an older running SlotPilot version, then run the installer.
 3. Complete the English setup wizard. Installation is for the current Windows user and creates desktop and Start menu shortcuts.
 
 ### Portable version
 
-Download and run `SlotPilot-0.3.2-Portable-x64.exe`. It includes the desktop runtime, so Node.js is not required on the user's laptop. Close an older running SlotPilot version first: a second launch focuses the already running instance.
+Download and run `SlotPilot-0.3.3-Portable-x64.exe`. It includes the desktop runtime, so Node.js is not required on the user's laptop. Close an older running SlotPilot version first: a second launch focuses the already running instance.
 
 The portable executable saves its sign-in session in the current Windows user profile. It does not carry that profile to another computer. Do not copy `SlotPilot.exe` alone from `win-unpacked`; that development output needs all its companion files.
 
@@ -125,8 +125,8 @@ Outputs:
 
 ```text
 release/
-  SlotPilot-0.3.2-Setup-x64.exe
-  SlotPilot-0.3.2-Portable-x64.exe
+  SlotPilot-0.3.3-Setup-x64.exe
+  SlotPilot-0.3.3-Portable-x64.exe
   win-unpacked/
 ```
 
@@ -174,7 +174,7 @@ To use a different self-hosted service, configure and verify that service separa
 
 ## Verification and current limits
 
-For version 0.3.2, local checks passed:
+For version 0.3.3, local checks passed:
 
 - 6 desktop access-policy tests and JavaScript syntax checks.
 - Real Electron smoke checks for English UI/menus/browser language, HTTPS page loading, isolated remote rendering, native resize, blocked foreign popups, tabs with retained document state, background-error isolation and reconnect/reload.
@@ -185,4 +185,4 @@ The public service reported account, database and voice configuration present on
 
 **Still unverified in the desktop client:** real account login, a physical microphone/speaker conversation, audible interruption latency, and a complete voice booking saved to PostgreSQL and read after restarting. Full P0 acceptance is not claimed. Recent real-database tests in the connected project were blocked by missing local configuration; previous PostgreSQL concurrency checks are documented in that project separately.
 
-See the [installation guide](docs/INSTALL_WINDOWS_EN.txt) and [SHA-256 checksums](docs/SHA256SUMS-0.3.2.txt). Rebuilt artifacts can have different checksums; the listed values apply to the uploaded 0.3.2 executables.
+See the [installation guide](docs/INSTALL_WINDOWS_EN.txt) and [SHA-256 checksums](docs/SHA256SUMS-0.3.3.txt). Rebuilt artifacts can have different checksums; the listed values apply to the uploaded 0.3.3 executables.

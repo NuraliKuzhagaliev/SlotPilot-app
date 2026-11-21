@@ -1,7 +1,7 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { APP_ORIGIN, routeForUrl, trustedUrl, trustedDownload, microphoneRequest, microphoneCheck, restoreBounds } = require('../src/policy.cjs');
+const { APP_ORIGIN, routeForUrl, trustedUrl, recoveryNavigation, trustedDownload, microphoneRequest, microphoneCheck, restoreBounds } = require('../src/policy.cjs');
 
 test('tab routing uses complete path segments and rejects foreign origins', () => {
   for (const route of ['book', 'admin', 'demo']) {
@@ -19,6 +19,14 @@ test('navigation is restricted to the exact HTTPS server origin', () => {
     'https://slotpilot-beta.vercel.app@attacker.test', 'https://user:pass@slotpilot-beta.vercel.app',
     `blob:${APP_ORIGIN}/id`, 'javascript:alert(1)', 'file:///C:/Windows/System32/cmd.exe', 'ms-settings:privacy-microphone', 'invalid'])
     assert.equal(trustedUrl(url), false, url);
+});
+
+test('only a password recovery link may reload an already-open booking tab', () => {
+  const fragment='#type=recovery&access_token=fixture';
+  assert.equal(recoveryNavigation(APP_ORIGIN+'/book'+fragment),true);
+  assert.equal(recoveryNavigation(APP_ORIGIN+'/book#assistant'),false);
+  assert.equal(recoveryNavigation(APP_ORIGIN+'/admin'+fragment),false);
+  assert.equal(recoveryNavigation('https://example.test/book'+fragment),false);
 });
 
 test('downloads support diagnostics blobs without allowing blob navigation or foreign downloads', () => {
