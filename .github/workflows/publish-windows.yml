@@ -1,0 +1,70 @@
+name: Publish verified Windows packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful Build Windows app run ID
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: write
+
+concurrency:
+  group: slotpilot-windows-release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      BUILD_RUN: ${{ inputs.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify the build belongs to a merged commit
+        id: verify
+        run: |
+          set -euo pipefail
+          [[ "$BUILD_RUN" =~ ^[0-9]+$ ]]
+          run="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$BUILD_RUN")"
+          jq -e '.conclusion == "success" and .path == ".github/workflows/build-windows.yml"' <<< "$run" >/dev/null
+          source="$(jq -r .head_sha <<< "$run")"
+          [[ "$source" =~ ^[0-9a-f]{40}$ ]]
+          git merge-base --is-ancestor "$source" HEAD
+          version="$(git show "$source:package.json" | jq -r .version)"
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          echo "sha=$source" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - uses: actions/download-artifact@v4
+        with:
+          name: SlotPilot-Windows
+          path: packaged
+          run-id: ${{ inputs.run_id }}
+          github-token: ${{ github.token }}
+      - name: Verify packages and publish
+        env:
+          SOURCE_SHA: ${{ steps.verify.outputs.sha }}
+          VERSION: ${{ steps.verify.outputs.version }}
+        run: |
+          set -euo pipefail
+          setup="SlotPilot-$VERSION-Setup-x64.exe"
+          portable="SlotPilot-$VERSION-Portable-x64.exe"
+          for file in "$setup" "$portable"; do
+            test -s "packaged/$file"
+            test "$(head -c 2 "packaged/$file")" = "MZ"
+          done
+          (cd packaged && sha256sum "$setup" "$portable" > "SHA256SUMS-$VERSION.txt")
+          git show "$SOURCE_SHA:RELEASE_NOTES.md" | awk '/^---$/{exit} {print}' > release-notes.md
+          gh release create "v$VERSION" \
+            "packaged/$setup" "packaged/$portable" "packaged/SHA256SUMS-$VERSION.txt" \
+            --repo "$GITHUB_REPOSITORY" --target "$SOURCE_SHA" --draft \
+            --title "SlotPilot $VERSION for Windows" --notes-file release-notes.md
+          gh release edit "v$VERSION" --repo "$GITHUB_REPOSITORY" --draft=false --latest
