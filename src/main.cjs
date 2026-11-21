@@ -3,7 +3,7 @@ const { app, BrowserWindow, WebContentsView, Menu, session, ipcMain, dialog, scr
 const fs = require('node:fs');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
-const { APP_ORIGIN, ROUTES, routeForUrl, trustedUrl, trustedDownload, microphoneRequest, microphoneCheck, restoreBounds } = require('./policy.cjs');
+const { APP_ORIGIN, ROUTES, routeForUrl, trustedUrl, recoveryNavigation, trustedDownload, microphoneRequest, microphoneCheck, restoreBounds } = require('./policy.cjs');
 
 const SHELL = pathToFileURL(path.join(__dirname, 'shell.html')).href;
 const HEADER_HEIGHT = 60;
@@ -126,13 +126,16 @@ function createTab(route) {
   const wc = tabView.webContents;
   wc.setWindowOpenHandler(({ url }) => {
     const target = routeForUrl(url);
-    if (target) void navigate(target, false, url);
+    if (target) void navigate(target, recoveryNavigation(url), url);
     return { action: 'deny' };
   });
   wc.on('will-navigate', (event, url) => {
     const target = routeForUrl(url);
     if (!target) { event.preventDefault(); return; }
-    if (target !== tab.route) { event.preventDefault(); void navigate(target, false, url); }
+    if (target !== tab.route || recoveryNavigation(url)) {
+      event.preventDefault();
+      void navigate(target, recoveryNavigation(url), url);
+    }
   });
   wc.on('will-redirect', (event, url) => { if (!trustedUrl(url)) { event.preventDefault(); failure(tab); } });
   wc.on('will-attach-webview', event => event.preventDefault());

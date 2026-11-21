@@ -19,6 +19,13 @@ function trustedUrl(value) {
   } catch { return false; }
 }
 
+function recoveryNavigation(value) {
+  if (!trustedUrl(value)) return false;
+  const url = new URL(value);
+  const fragment = new URLSearchParams(url.hash.slice(1));
+  return url.pathname === '/book' && fragment.get('type') === 'recovery' && Boolean(fragment.get('access_token'));
+}
+
 function microphoneRequest(permission, details = {}) {
   return permission === 'media' && details.isMainFrame === true &&
     trustedUrl(details.requestingUrl) && Array.isArray(details.mediaTypes) &&
@@ -51,4 +58,4 @@ function restoreBounds(saved, workArea) {
   };
 }
 
-module.exports = { APP_ORIGIN, ROUTES, routeForUrl, trustedUrl, trustedDownload, microphoneRequest, microphoneCheck, restoreBounds };
+module.exports = { APP_ORIGIN, ROUTES, routeForUrl, trustedUrl, recoveryNavigation, trustedDownload, microphoneRequest, microphoneCheck, restoreBounds };
